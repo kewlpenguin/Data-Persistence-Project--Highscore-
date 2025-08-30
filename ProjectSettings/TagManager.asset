@@ -5,11 +5,13 @@ TagManager:
   serializedVersion: 3
   tags:
   - ground
+  - shelf
+  - collectable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - collectables
   - Water
   - UI
   - 
