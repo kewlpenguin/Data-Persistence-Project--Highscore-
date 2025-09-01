@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using System.Collections.Generic;
+
 public class Player_Controller : MonoBehaviour
 {
     public float Strafe_Speed = 20;
@@ -20,6 +22,9 @@ public class Player_Controller : MonoBehaviour
     public LayerMask Collectable_Layer;
     private Image tentacle;
     private GameObject currentCollectable;
+    public Checklist_Tracker checklist_Tracker;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,6 +42,7 @@ public class Player_Controller : MonoBehaviour
        
         tentacle = GameObject.Find("Screen_Middle").GetComponent<Image>();
         tentacle.gameObject.SetActive(false);
+
     }
 
 
@@ -139,8 +145,28 @@ public class Player_Controller : MonoBehaviour
         if (Object_In_Range_Info.collider != null && Presses_E_To_Pickup) // because this statement will run again after the object has been destroyedwe will run into a null reference exeptrion. but because we still neet to switch back to default state we just check 
                                                                           // if the object pointed at is already null
         {
-            Destroy(Object_In_Range_Info.collider.gameObject);
+            Debug.Log("grabbed object: " + Object_In_Range_Info.collider.name);
 
+            List<string> temp = checklist_Tracker.Checklist_Items_Left;
+           
+            int Found_Needed_Item_At = temp.FindIndex(temp => temp == Object_In_Range_Info.collider.name); //uses name to find objects name in the list 
+
+
+            if (Found_Needed_Item_At != -1)
+            {
+                Debug.Log("found needed item at " + Found_Needed_Item_At + " items left:  " + checklist_Tracker.Checklist_Items_Left.Count);
+                
+                for (int i = 0; i < checklist_Tracker.Checklist_Items_Left.Count; i++)
+                {
+                    Debug.Log(checklist_Tracker.Checklist_Items_Left[i] + " ");
+                }
+                checklist_Tracker.Checklist_Items_Left.RemoveAt(Found_Needed_Item_At);
+
+            }
+          
+          
+            Destroy(Object_In_Range_Info.collider.gameObject);
+           
         }
     }
 

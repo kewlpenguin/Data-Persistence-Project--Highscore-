@@ -4,54 +4,44 @@ using System.Collections;
 using UnityEngine.UI;
 using TMPro;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class Checklist_Tracker : MonoBehaviour
 {
-   private GameObject Black_Hole_Mini;
-    private GameObject Object_2;
-    private GameObject Object_3;
+    // new objects that want to be able to be instantiated must be declared here
+
+
+   public GameObject Black_Hole_Mini;
+    public GameObject Object_2;
+    public GameObject Object_3;
+   
+ 
+    
     private int Number_Of_Different_Objects = 0;
-    List<string> All_Possible_Objects;
-    List<string> Cecklist_Items_Left;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public List<string> All_Possible_Objects;
+    public List<string> Checklist_Items_Left;
+    public List<GameObject> All_GameObjects;
 
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        All_Possible_Objects = Assign_GameObjects_And_Create_collectables_List();
-
-        Cecklist_Items_Left = Initiate_Checklist();
-        /*
-        for(int i = 0; i < All_Possible_Objects.Count;i++)
-        {
-            Debug.Log(All_Possible_Objects[i]);
-        }
-       
-        for (int i = 0; i < Cecklist_Items_Left.Count; i++)
-        {
-            Debug.Log(Cecklist_Items_Left[i]);
-        }
-        */
+    
+    
 
 
 
     }
+
+
+    private void Awake()
+    {
+        All_Possible_Objects = Assign_GameObjects_And_Create_collectables_List();
+
+        Checklist_Items_Left = Initiate_Checklist();
+
+        All_GameObjects = Assign_GameObjects_to_All_Game_Objects();
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -62,19 +52,18 @@ public class NewMonoBehaviourScript : MonoBehaviour
     }
 
 
-    private List<string> Assign_GameObjects_And_Create_collectables_List()
+    private List<string> Assign_GameObjects_And_Create_collectables_List() // adds gameobjects to the list using their names as strings plus clode (because when instantiated their name has clone tacked on
     {
         List<string> Temp_List = new List<string>();
        
-        Black_Hole_Mini = GameObject.Find("Black_Hole_Mini"); Number_Of_Different_Objects++;
-        Temp_List.Add(Black_Hole_Mini.name);
+        Temp_List.Add(Black_Hole_Mini.name + "(Clone)");
+        Number_Of_Different_Objects++;
 
-        Object_2 = GameObject.Find("Object_2"); Number_Of_Different_Objects++;
-        Temp_List.Add(Object_2.name);
+        Temp_List.Add(Object_2.name + "(Clone)");
+        Number_Of_Different_Objects++;
 
-        Object_3 = GameObject.Find("Object_3"); Number_Of_Different_Objects++;
-        Temp_List.Add(Object_3.name);
-
+        Temp_List.Add(Object_3.name + "(Clone)");
+        Number_Of_Different_Objects++;
 
 
 
@@ -87,12 +76,27 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     }
 
+    private List<GameObject> Assign_GameObjects_to_All_Game_Objects() // for instantiation inside objectinstantiator script
+    {
+        List<GameObject> Temp_List = new List<GameObject>();
+
+        Temp_List.Add(Black_Hole_Mini);
+       
+
+        Temp_List.Add(Object_2);
+        
+
+        Temp_List.Add(Object_3);
+        
+
+        return Temp_List;
+
+    }
 
 
 
-    
 
-    private List<string> Initiate_Checklist()
+    private List<string> Initiate_Checklist() // creates a random number of required items checklist requiring random items
     {
         int Number_Of_Items_Needed = Random.Range(3, 8);
         List<string> Temp_List = new List<string>(); ;
